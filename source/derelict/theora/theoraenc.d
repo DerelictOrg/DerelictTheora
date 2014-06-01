@@ -33,7 +33,7 @@ private {
     import derelict.util.system;
 
     static if( Derelict_OS_Windows )
-        enum libNames = "theora.dll, libtheoraenc-1.dll, libtheoraenc.dll";
+        enum libNames = "theoraenc.dll, libtheoraenc-1.dll, libtheoraenc.dll";
     else static if( Derelict_OS_Mac )
         enum libNames = "libtheoraenc.dylib, libtheoraenc.1.dylib";
     else static if( Derelict_OS_Posix )

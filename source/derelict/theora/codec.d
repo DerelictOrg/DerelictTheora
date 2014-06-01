@@ -27,6 +27,25 @@ DEALINGS IN THE SOFTWARE.
 */
 module derelict.theora.codec;
 
+private {
+    import core.stdc.config;
+    import derelict.util.loader;
+    import derelict.util.system;
+
+    static if( Derelict_OS_Windows )
+        enum libNames = "theora.dll, libtheora-0.dll, libtheora.dll";
+    else static if( Derelict_OS_Mac )
+        enum libNames = "libtheora.dylib, libtheora.0.dylib";
+    else static if( Derelict_OS_Posix )
+        enum libNames = "libtheora.so, libtheora.so.0";
+    else
+        static assert( 0, "Need to implement libtheora libnames for this operating system." );
+}
+
+public {
+    import derelict.ogg.ogg;
+}
+
 enum {
     TH_EFAULT = -1,
     TH_EINVAL = -10,
@@ -68,16 +87,16 @@ struct th_info {
     ubyte version_major;
     ubyte version_minor;
     ubyte version_subminor;
-    uint frame_width;
-    uint frame_height;
-    uint pic_width;
-    uint pic_height;
-    uint pic_x;
-    uint pic_y;
-    uint fps_numerator;
-    uint fps_denominator;
-    uint aspect_numerator;
-    uint aspect_denominator;
+    ogg_uint32_t frame_width;
+    ogg_uint32_t frame_height;
+    ogg_uint32_t pic_width;
+    ogg_uint32_t pic_height;
+    ogg_uint32_t pic_x;
+    ogg_uint32_t pic_y;
+    ogg_uint32_t fps_numerator;
+    ogg_uint32_t fps_denominator;
+    ogg_uint32_t aspect_numerator;
+    ogg_uint32_t aspect_denominator;
     th_colorspace colorspace;
     th_pixel_fmt pixel_fmt;
     int target_bitrate;
@@ -101,8 +120,8 @@ struct th_quant_ranges {
 }
 
 struct th_quant_info {
-    ushort[ 64 ] dc_scale;
-    ushort[ 64 ] ac_scale;
+    ogg_uint16_t[ 64 ] dc_scale;
+    ogg_uint16_t[ 64 ] ac_scale;
     ubyte[ 64 ] loop_filter_limits;
     th_quant_ranges[ 2 ][ 3 ] qi_ranges;
 }
@@ -113,6 +132,69 @@ enum {
 }
 
 struct th_huff_code {
-    uint pattern;
+    ogg_uint32_t pattern;
     int nbits;
+}
+
+extern( C ) nothrow {
+    alias da_th_version_string = const( char )* function();
+    alias da_th_version_number = ogg_uint32_t function();
+    alias da_th_granule_frame = ogg_int64_t function( void*, ogg_int64_t );
+    alias da_th_granule_time = double function( void*, ogg_int64_t );
+    alias da_th_packet_isheader = int function( ogg_packet* );
+    alias da_th_packet_iskeyframe = int function( ogg_packet* );
+    alias da_th_info_init = void function( th_info* );
+    alias da_th_info_clear = void function( th_info* );
+    alias da_th_comment_init = void function( th_comment* );
+    alias da_th_comment_add = void function( th_comment* );
+    alias da_th_comment_add_tag = void function( th_comment*, char*, char* );
+    alias da_th_comment_query = char* function( th_comment*, char*, int );
+    alias da_th_comment_query_count = int function( th_comment*, char* );
+    alias da_th_comment_clear = void function( th_comment* );
+}
+
+__gshared {
+    da_th_version_string th_version_string;
+    da_th_version_number th_version_number;
+    da_th_granule_frame th_granule_frame;
+    da_th_granule_time th_granule_time;
+    da_th_packet_isheader th_packet_isheader;
+    da_th_packet_iskeyframe th_packet_iskeyframe;
+    da_th_info_init th_info_init;
+    da_th_info_clear th_info_clear;
+    da_th_comment_init th_comment_init;
+    da_th_comment_add th_comment_add;
+    da_th_comment_add_tag th_comment_add_tag;
+    da_th_comment_query th_comment_query;
+    da_th_comment_query_count th_comment_query_count;
+    da_th_comment_clear th_comment_clear;
+}
+
+class DerelictTheoraLoader : SharedLibLoader {
+    public this() {
+        super( libNames );
+    }
+
+    protected override void loadSymbols() {
+        bindFunc( cast( void** )&th_version_string, "th_version_string" );
+        bindFunc( cast( void** )&th_version_number, "th_version_number" );
+        bindFunc( cast( void** )&th_granule_frame, "th_granule_frame" );
+        bindFunc( cast( void** )&th_granule_time, "th_granule_time" );
+        bindFunc( cast( void** )&th_packet_isheader, "th_packet_isheader" );
+        bindFunc( cast( void** )&th_packet_iskeyframe, "th_packet_iskeyframe" );
+        bindFunc( cast( void** )&th_info_init, "th_info_init" );
+        bindFunc( cast( void** )&th_info_clear, "th_info_clear" );
+        bindFunc( cast( void** )&th_comment_init, "th_comment_init" );
+        bindFunc( cast( void** )&th_comment_add, "th_comment_add" );
+        bindFunc( cast( void** )&th_comment_add_tag, "th_comment_add_tag" );
+        bindFunc( cast( void** )&th_comment_query, "th_comment_query" );
+        bindFunc( cast( void** )&th_comment_query_count, "th_comment_query_count" );
+        bindFunc( cast( void** )&th_comment_clear, "th_comment_clear" );
+    }
+}
+
+__gshared DerelictTheoraLoader DerelictTheora;
+
+shared static this() {
+    DerelictTheora = new DerelictTheoraLoader();
 }

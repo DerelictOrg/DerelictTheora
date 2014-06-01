@@ -33,7 +33,7 @@ private {
     import derelict.util.system;
 
     static if( Derelict_OS_Windows )
-        enum libNames = "theora.dll, libtheoradec-0.dll, libtheoradec.dll";
+        enum libNames = "theoradec.dll, libtheoradec-0.dll, libtheoradec.dll";
     else static if( Derelict_OS_Mac )
         enum libNames = "libtheoradec.dylib, libtheoradec.0.dylib";
     else static if( Derelict_OS_Posix )

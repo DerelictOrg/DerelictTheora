@@ -8,9 +8,20 @@ For information on how to build DerelictTheora and link it with your programs, p
 For information on how to load the libtheora library via DerelictTheora, see the page [DerelictUtil for Users][3] at the DerelictUtil Wiki. In the meantime, here's some sample code.
 
 ```D
+// Import all of the libtheora modules
 import derelict.theora.theora;
 
+/*
+Alternatively, you can do the following:
+import derelict.theora.codec;
+import derelict.theora.theoraenc;
+import derelict.theora.theoradec;
+*/
+
 void main() {
+    // Load the base codec library;
+    DerelictTheora.load();
+
     // Load the libtheoradec library for decoding a video
     DerelictTheoraDec.load();
 
