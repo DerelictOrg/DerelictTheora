@@ -1,4 +1,4 @@
-DerelictOgg
+DerelictTheora
 ==========
 
 A dynamic binding to [libtheora][1] for the D Programming Language.
