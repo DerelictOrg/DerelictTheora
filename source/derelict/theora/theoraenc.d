@@ -69,7 +69,7 @@ enum {
 
 struct th_enc_ctx;
 
-extern( C ) nothrow {
+extern( C ) @nogc nothrow {
     alias da_th_encode_alloc = th_enc_ctx* function( th_info* );
     alias da_th_encode_ctl = int function( th_enc_ctx*, int, void*, size_t );
     alias da_th_encode_flushheader = int function( th_enc_ctx*, th_comment*, ogg_packet* );

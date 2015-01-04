@@ -136,7 +136,7 @@ struct th_huff_code {
     int nbits;
 }
 
-extern( C ) nothrow {
+extern( C ) @nogc nothrow {
     alias da_th_version_string = const( char )* function();
     alias da_th_version_number = ogg_uint32_t function();
     alias da_th_granule_frame = ogg_int64_t function( void*, ogg_int64_t );

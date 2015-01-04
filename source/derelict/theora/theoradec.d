@@ -69,7 +69,7 @@ struct th_dec_ctx;
 struct th_setup_info;
 
 
-extern( C ) nothrow {
+extern( C ) @nogc nothrow {
     alias da_th_decode_headerin = int function( th_info*, th_comment*, th_setup_info**, ogg_packet* );
     alias da_th_decode_alloc = th_dec_ctx* function( const( th_info )*, const( th_setup_info )* );
     alias da_th_setup_free = void function( th_setup_info* );
