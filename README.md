@@ -19,14 +19,10 @@ import derelict.theora.theoradec;
 */
 
 void main() {
-    // Load the base codec library;
+    // Load the libtheora library and its companion encoding and decoding libaries
     DerelictTheora.load();
-
-    // Load the libtheoradec library for decoding a video
-    DerelictTheoraDec.load();
-
-    // Load the libtheoraenc library for encoding a video
     DerelictTheoraEnc.load();
+    DerelictTheoraDec.load();
 
     // Now libtheora functions can be called.
     ...
