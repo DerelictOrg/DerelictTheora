@@ -1,9 +1,9 @@
 DerelictTheora
 ==========
 
-A dynamic binding to [libtheora][1] for the D Programming Language.
+A dynamic binding to [libtheora][1] version 1.1 for the D Programming Language.
 
-Please see the pages [Building and Linking Derelict][2] and [Using Derelict][3], in the Derelict documentation, for information on how to build DerelictTheora and load libtheora at run time. In the meantime, here's some sample code.
+Please see the [Derelict documentation][2], for information on how to build DerelictTheora and load libtheora at run time. In the meantime, here's some sample code.
 
 ```D
 // Import all of the libtheora modules
@@ -28,5 +28,4 @@ void main() {
 ```
 
 [1]: http://xiph.org/theora/
-[2]: http://derelictorg.github.io/compiling.html
-[3]: http://derelictorg.github.io/using.html
+[2]: https://derelictorg.github.io/
