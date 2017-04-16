@@ -25,4 +25,7 @@ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 */
-public import derelict.theora.codec, derelict.theora.theoradec, derelict.theora.theoraenc;
+public
+import derelict.theora.codec,
+       derelict.theora.dec,
+       derelict.theora.enc;

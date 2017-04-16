@@ -7,7 +7,7 @@ Please see the sections on [Compiling and Linking][2] and [The Derelict Loader][
 
 ```D
 // Import all of the libtheora modules
-import derelict.theora.theora;
+import derelict.theora;
 
 /*
 Alternatively, you can do the following:
